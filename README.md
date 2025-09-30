@@ -114,8 +114,7 @@ module.exports = {
 name: Release
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
   workflow_dispatch: # Allow manual triggers
@@ -125,8 +124,6 @@ permissions:
 
 jobs:
   release:
-    # Only run if PR was actually merged (not just closed)
-    if: github.event.pull_request.merged == true
     name: Release
     runs-on: ubuntu-latest
     permissions:
@@ -140,7 +137,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main # Ensure we're on main branch
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
